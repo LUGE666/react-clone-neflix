@@ -1,28 +1,16 @@
 import './App.css'
-import Row from './components/Row'
-import request from './api/request'
-import Banner from './components/Banner'
-import Nav from './components/Nav'
+import { BrowserRouter } from 'react-router-dom'
+import { renderRoutes } from 'react-router-config'
+import { memo, Suspense } from 'react'
+
+import routes from '@/router/index'
 
 function App() {
-  return (
-    <div className="app">
-      <Nav />
-      <Banner />
-      <Row
-        title="NETFLIX ORIGINALS"
-        fetchUrl={request.fetchNetflixOriginals}
-        isLargeRow
-      />
-      <Row title="Trending Now" fetchUrl={request.fetchTrending} />
-      <Row title="Top Rated" fetchUrl={request.fetchTopRated} />
-      <Row title="Action Movies" fetchUrl={request.fetchActionMovies} />
-      <Row title="Comdy Movies" fetchUrl={request.fetchComedyMovies} />
-      <Row title="Horror Movies" fetchUrl={request.fetchHorrorMovies} />
-      <Row title="Romance Movies" fetchUrl={request.fetchRomanceMovies} />
-      <Row title="Documentaries" fetchUrl={request.fetchDocumentaries} />
-    </div>
-  )
+  return memo(() => (
+    <BrowserRouter>
+      <Suspense fallback={<div>loading</div>}>{renderRoutes(routes)}</Suspense>
+    </BrowserRouter>
+  ))
 }
 
 export default App
